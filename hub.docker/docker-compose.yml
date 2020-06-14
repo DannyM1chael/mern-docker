@@ -1,0 +1,23 @@
+version: '3.8'
+
+services: 
+    client: 
+        image: dannym1chael/chat-whlsburg:client_v2
+        ports: 
+            - "3000:3000" 
+        depends_on: 
+            - server 
+        networks: 
+            - chat-network 
+        stdin_open: true
+
+    server: 
+        image: dannym1chael/chat-whlsburg:server_v2
+        ports: 
+            - "5000:5000" 
+        networks: 
+            - chat-network
+
+networks: 
+    chat-network: 
+        driver: bridge
