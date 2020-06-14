@@ -1,6 +1,6 @@
-from directory of project(where docker-compose.yml):
-docker pull dannym1chael/chat-whlsburg:server_v2
-docker pull dannym1chael/chat-whlsburg:client_v2
+from directory of project(where docker-compose.yml):<br>
+docker pull dannym1chael/chat-whlsburg:server_v2<br>
+docker pull dannym1chael/chat-whlsburg:client_v2<br>
 docker-compose up
 
 
