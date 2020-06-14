@@ -6,12 +6,14 @@ import './Chat.css';
 import InfoBar from '../InfoBar';
 import Input from '../Input';
 import Messages from '../Messages';
+import TextContainer from '../TextContainer';
 
 let socket;
 
 export default function Chat({location}){
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
+    const [users, setUsers] = useState('');
     const [message, setMessage] = useState([]);
     const [messages, setMessages] = useState([]);
 
@@ -25,13 +27,14 @@ export default function Chat({location}){
         setName(name);
         setRoom(room);
 
-        socket.emit('join', { name, room }, () => {
-
+        socket.emit('join', { name, room }, (error) => {
+            if(error){
+                alert('Something goes wrong')
+            }
         });
 
         return () => {
             socket.emit('disconnect');
-
             socket.off();
         }
 
@@ -40,7 +43,12 @@ export default function Chat({location}){
     useEffect(() => {
         socket.on('message', (message) => {
             setMessages([...messages, message]);
-        })
+        });
+
+        socket.on('roomData', ( { users }) =>{
+            setUsers(users)
+        });
+
     },[messages]);
 
     const sendMessage = (e) => {
@@ -60,6 +68,7 @@ export default function Chat({location}){
                 <Messages messages={ messages } name={ name } />
                 <Input message={ message } setMessage={ setMessage } sendMessage={ sendMessage }/>
             </div>
+            <TextContainer users={ users }/>
         </div>
     )
 };

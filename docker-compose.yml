@@ -1,32 +1,27 @@
 version: '3.8'
 
 services:
-  server:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    image: chat-server-img
-    ports: 
-      - "5000:5000"
-    networks: 
-      - chat-network
   client:
-    build: 
-      context: ./client
-      dockerfile: Dockerfile
-    image: chat-client-img
-    depends_on: 
-      - server
-    ports: 
+    build: .
+    volumes:
+      - "./client:/app"
+    ports:
       - "3000:3000"
+    depends_on:
+      - server
     networks: 
       - chat-network
     stdin_open: true
-    
+
+  server:
+    build: .
+    volumes:
+      - "./server:/app"
+    ports:
+      - "5000:5000"
+    networks: 
+      - chat-network
+
 networks: 
   chat-network:
     driver: bridge
-
-
-
-        
